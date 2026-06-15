@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -13,4 +15,70 @@ body,
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Atmospheric "reading room" background ----
+   A warm radial wash + a faint paper grain. Colours are driven by CSS
+   variables that App.jsx swaps when the light/dark theme changes, so the
+   texture stays in sync with MUI's palette. */
+:root {
+  --rr-bg: #efe6d4;
+  --rr-bg-2: #e6d8bd;
+  --rr-glow: rgba(122, 38, 48, 0.1);
+  --rr-grain: 0.5;
+}
+
+body {
+  background-color: var(--rr-bg);
+  background-image:
+    radial-gradient(
+      120% 90% at 12% -10%,
+      var(--rr-glow) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      100% 80% at 100% 0%,
+      var(--rr-bg-2) 0%,
+      transparent 55%
+    );
+  background-attachment: fixed;
+  transition: background-color 0.4s ease;
+}
+
+/* fine paper grain laid over everything, behind the app content */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--rr-grain);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* slim, theme-aware scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(122, 38, 48, 0.35) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(122, 38, 48, 0.3);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(122, 38, 48, 0.5);
+  background-clip: content-box;
 }
