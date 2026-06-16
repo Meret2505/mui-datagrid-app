@@ -94,17 +94,15 @@ src/
 
 ## 🌍 Деплой
 
-### Netlify
+Приложение развёрнуто на **[Netlify](https://shiny-unicorn-2dcf40.netlify.app)**.
 
 1. Подключите репозиторий на [netlify.com](https://app.netlify.com).
 2. Build command: `npm run build`, publish directory: `dist`
    (уже задано в `netlify.toml`).
+3. SPA-редирект `/* → /index.html` тоже прописан в `netlify.toml`.
 
-### GitHub Pages
-
-В репозитории есть workflow `.github/workflows/deploy.yml`. Включите Pages
-(Settings → Pages → Source: GitHub Actions), и при пуше в `main` приложение
-задеплоится автоматически.
+> Для GitHub Pages пришлось бы задать `base: '/mui-datagrid-app/'` в
+> `vite.config.js` (Pages раздаёт из подпути) — здесь не используется.
 
 ## 📝 Лицензия
 
